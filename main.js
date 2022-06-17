@@ -5,6 +5,9 @@
 /*************************************************************/
 // VARIABLES
 /*************************************************************/
+const elmnt = document.getElementById("speedPC");
+
+
 // BARRIER
 var spot = {
   x: 100,
@@ -42,6 +45,12 @@ function dToBall (){
   }
 }
 
+function setupCvs(){
+  console.log(elmnt.offsetHeight + "/" + elmnt.offsetWidth);
+let cnv = createCanvas(elmnt.offsetWidth, elmnt.offsetHeight);
+ cnv.parent('speedPC');
+}
+
 function setup(){
   fb_initialise();  
   createBtns()
@@ -50,7 +59,7 @@ function setup(){
   var speedY = random(BALLVEL);
   timer = createP('timer')
   setInterval(timeIt, 500);
-  createCanvas(400, 400); 
+  createCanvas(0, 0); 
   for (let i = 0; i < 1; i++) {
       ball[i] = {
         
@@ -168,6 +177,13 @@ function createBtns(_x, _y) {
   btnLogin.style('background-color', color(BTNCOL));
   btnLogin.style('font-size', FONTSIZE);
   btnLogin.mousePressed(login);
+}
+
+function login() {
+  fb_login(userDetails);
+  document.getElementById("landingPage").style.display = "none";
+  document.getElementById("gamePage").style.display = "block";
+  btnLogin.position(20000, 20000);
 }
 /*************************************************************/
 //      END OF APP
