@@ -1,0 +1,176 @@
+/*****************************************************/
+// fb_io.js
+// Written by ???   2021
+/*****************************************************/
+
+/*****************************************************/
+// fb_initialise()
+// Called by setup
+// Initialize firebase
+// Input:  n/a
+// Return: n/a
+/*****************************************************/
+function fb_initialise() {
+  console.log('fb_initialise: ');
+  var firebaseConfig = {
+    apiKey: "AIzaSyCaXaL1_TmS4IRdCKdBgJDYFaJqNOKDTCo",
+    authDomain: "comp-2022-nehan-hetti-25e50.firebaseapp.com",
+    databaseURL: "https://comp-2022-nehan-hetti-25e50-default-rtdb.firebaseio.com",
+    projectId: "comp-2022-nehan-hetti-25e50",
+    storageBucket: "comp-2022-nehan-hetti-25e50.appspot.com",
+    messagingSenderId: "839903240280",
+    appId: "1:839903240280:web:db67fb72dbc91750bcea2d",
+    measurementId: "G-4QQWQFSBQM"
+  };
+  
+  // Initialize Firebase
+  firebase.initializeApp(firebaseConfig);
+  console.log(firebase);	
+		
+  database = firebase.database();
+}
+
+/**************************************************************/
+// fb_login(_dataRec)
+// Called by setup
+// Login to Firebase
+// Input:  object to save login data to
+// Return: n/a
+/**************************************************************/
+function fb_login(_dataRec) {
+  console.log('fb_login: ');
+  firebase.auth().onAuthStateChanged(newLogin);
+
+  function newLogin(user) {
+    if (user) {
+      // user is signed in, so save Google login details
+      _dataRec.uid      = user.uid;
+      _dataRec.email    = user.email;
+      _dataRec.name     = user.displayName;
+      _dataRec.photoURL = user.photoURL;
+      loginStatus = 'logged in';
+      console.log('fb_login: status = ' + loginStatus);
+    } 
+    else {
+      // user NOT logged in, so redirect to Google login
+      loginStatus = 'logged out';
+      console.log('fb_login: status = ' + loginStatus);
+
+      var provider = new firebase.auth.GoogleAuthProvider();
+      //firebase.auth().signInWithRedirect(provider); // Another method
+      firebase.auth().signInWithPopup(provider).then(function(result) {
+        _dataRec.uid      = user.uid;
+        _dataRec.email    = user.email;
+        _dataRec.name     = user.displayName;
+        _dataRec.photoURL = user.photoURL;
+        loginStatus = 'logged in via popup';
+        console.log('fb_login: status via popup= ' + loginStatus);
+      })
+      // Catch errors
+      .catch(function(error) {
+        if(error) {
+          var errorCode = error.code;
+          var errorMessage = error.message;
+          loginStatus = 'error: ' + error.code;
+          console.log('fb_login: error code = ' + errorCode + 
+                      '    ' + errorMessage);
+        }
+      });
+    }
+  }
+}
+
+/*****************************************************/
+// fb_writeRec(_path, _key, _data)
+// Write a specific record & key to the DB
+// Input:  path to write to, the key, data to write
+// Return: 
+/*****************************************************/
+
+function fb_writeRec(_path, _key, _data) { 
+    console.log('fb_WriteRec: path= ' + _path + '  key= ' + _key +
+                 '  data= ' + _data.name + '/' + _data.score);
+    writeStatus = 'waiting'
+    firebase.database().ref(_path + '/' + _key).set(_data,
+      function(error){
+        if (error) {
+     writeStatus = 'failed'
+      } else {
+      writeStatus = 'ok'
+      }
+    }
+  );
+}
+
+/*****************************************************/
+// fb_readAll(_path, _data)
+// Read all DB records for the path
+// Input:  path to read from and where to save it
+// Return:
+/*****************************************************/
+function fb_readAll(_path, _data) {
+  console.log('fb_readAll: path= ' + _path);
+
+    readStatus = 'waiting'
+  firebase.database().ref(_path).once("value", gotRecord, readErr);
+
+  function gotRecord(snapshot){
+    if(snapshot.val() == null){
+      readStatus = 'no record'
+    } else {
+      readStatus = 'ok'
+      let dbData        = snapshot.val();
+      console.log(dbData);
+      let dbKeys = Object.keys(dbData);
+
+
+      for(i=0; i < dbKeys.length; i++){
+        let key = dbKeys[i];
+        _data.push({
+          name: dbData[key].name,
+          score: dbData[key].score,
+        })
+      }
+    }
+  };
+  function readErr (error){
+    readStatus = 'failed'
+  }
+  
+}
+
+/*****************************************************/
+// fb_readRec(_path, _key, _data)
+// Read a specific DB record
+// Input:  path & key of record to read and where to save it
+// Return:  
+/*****************************************************/
+function fb_readRec(_path, _key, _data) {	
+    console.log('fb_readRec: path= ' + _path + '  key= ' + _key);
+
+  readStatus = 'waiting'
+  firebase.database().ref(_path + '/' + _key).once("value", gotRecord, readErr);
+
+  function gotRecord(snapshot){
+    if(snapshot.val() == null){
+      readStatus = 'no record'
+    } else {
+      readStatus = 'ok'
+      let dbData        = snapshot.val();
+      _data.uid         = dbData.uid;
+      _data.name        = dbData.name;
+      _data.email       = dbData.email;
+      _data.photoURL    = dbData.photoURL;
+      _data.score       = dbData.score;
+    }
+  };
+
+  function readErr (error){
+    readStatus = 'failed'
+  }
+  
+}
+
+/*****************************************************/
+//    END OF MODULE
+/*****************************************************/
