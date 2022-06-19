@@ -13,9 +13,40 @@ var spot = {
   x: 100,
   y: 100,
 }
+
 // TIMER
-var timer;
-var counter = 0;
+const timer = document.getElementById("timer");
+var timerInterval;
+// Start Timer
+function startTimer(){
+  document.getElementById("gameStartBtn").style.display = "none";
+  clearInterval(timerInterval);
+  var second = 0;
+  var minute = 0;
+  var hour = 0;
+  timerInterval = setInterval(function () {
+timer.classList.toggle('odd');
+    timer.innerHTML =
+      (hour ? hour + ":" : "") +
+      (minute < 10 ? "0" + minute : minute) +
+      ":" +
+      (second < 10 ? "0" + second : second);
+    second++;
+    if (second == 10) {
+    clearInterval(timerInterval);
+      second = 0;
+      minute = 0;
+      hour = 0;
+    gameOver()
+    
+    }
+  }, 1000);
+};
+// Game Over Function
+function gameOver(){
+  document.getElementById("gameStartBtn").style.display = "block";
+}
+
 // RANDOM COLOUR
 var col = {
   r: 0,
@@ -49,6 +80,7 @@ function setupCvs(){
   console.log(elmnt.offsetHeight + "/" + elmnt.offsetWidth);
 let cnv = createCanvas(elmnt.offsetWidth, elmnt.offsetHeight);
  cnv.parent('speedPC');
+  startTimer()
 }
 
 function setup(){
@@ -57,8 +89,6 @@ function setup(){
   frameRate(60)
   var speed = random(BALLVEL);
   var speedY = random(BALLVEL);
-  timer = createP('timer')
-  setInterval(timeIt, 500);
   createCanvas(0, 0); 
   for (let i = 0; i < 1; i++) {
       ball[i] = {
@@ -88,14 +118,14 @@ function setup(){
   bounce: function(){
     if(this.x + this.radius > width){
       this.speed = random(BALLVELNEG);
-      this.x = 375;
+      this.x = 1222;
   } else if(this.x - this.radius < 0){
       this.speed = random(BALLVELPOS);
       this.x = 25;
   }
   if(this.y + this.radius > height){
     this.speedY = random(BALLVELNEG);
-    this.y = 375;
+    this.y = 907;
   } else if(this.y - this.radius < 0){
       this.speedY = random(BALLVELPOS);
         this.y = 25;
@@ -104,11 +134,6 @@ function setup(){
   }
   }
 
-}
-
-function timeIt(){
-  timer.html(counter);
-  counter++;
 }
 
 function mouseClicked(){
