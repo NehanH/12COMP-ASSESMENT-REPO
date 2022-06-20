@@ -17,11 +17,15 @@ var spot = {
 // TIMER
 const timer = document.getElementById("timer");
 var timerInterval;
-// Start Timer
+// Start Timer / Game
 function startTimer(){
+  hit = false;
+  miss = 0;
+  document.getElementById("score").innerHTML = "Score";
+  document.getElementById("misses").innerHTML = "Misses";
   document.getElementById("gameStartBtn").style.display = "none";
   clearInterval(timerInterval);
-  var second = 0;
+  var second = 10;
   var minute = 0;
   var hour = 0;
   timerInterval = setInterval(function () {
@@ -31,12 +35,9 @@ timer.classList.toggle('odd');
       (minute < 10 ? "0" + minute : minute) +
       ":" +
       (second < 10 ? "0" + second : second);
-    second++;
-    if (second == 10) {
+    second--;
+    if (second == -1) {
     clearInterval(timerInterval);
-      second = 0;
-      minute = 0;
-      hour = 0;
     gameOver()
     
     }
@@ -45,6 +46,10 @@ timer.classList.toggle('odd');
 // Game Over Function
 function gameOver(){
   document.getElementById("gameStartBtn").style.display = "block";
+   cnv = createCanvas(0, 0);
+  console.log(score + '/' + miss);
+  document.getElementById("score").innerHTML = score;
+  document.getElementById("misses").innerHTML = miss;
 }
 
 // RANDOM COLOUR
@@ -90,7 +95,7 @@ function setup(){
   var speed = random(BALLVEL);
   var speedY = random(BALLVEL);
   createCanvas(0, 0); 
-  for (let i = 0; i < 1; i++) {
+  for (let i = 0; i < 3; i++) {
       ball[i] = {
         
     x: random(100, 300),
@@ -146,8 +151,7 @@ function mouseClicked(){
     hit = px2ball.some(function (e) {
     return e <= ballRadius;
   });
-  
-if (hit == true) {
+  if (hit == true) {
     score += 1;
     console.log("score: "+ score);
   }
@@ -155,7 +159,8 @@ if (hit == true) {
     miss += 1;
     console.log("miss:" + miss);
   }
-}
+} 
+
 function draw(){
   background(200, 200, 200);
   for (let i = 0; i < ball.length; i++) {
