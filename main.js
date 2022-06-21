@@ -21,8 +21,8 @@ var timerInterval;
 function startTimer(){
   hit = false;
   miss = 0;
-  document.getElementById("score").innerHTML = "Score";
-  document.getElementById("misses").innerHTML = "Misses";
+  document.getElementById("score").innerHTML = score;
+  document.getElementById("misses").innerHTML = miss;
   document.getElementById("gameStartBtn").style.display = "none";
   clearInterval(timerInterval);
   var second = 10;
@@ -50,6 +50,7 @@ function gameOver(){
   console.log(score + '/' + miss);
   document.getElementById("score").innerHTML = score;
   document.getElementById("misses").innerHTML = miss;
+  
 }
 
 // RANDOM COLOUR
@@ -68,7 +69,7 @@ var hit = false;
 var score = 0;
 var count = 0;
 var miss = 0;
-
+var userHighscore = score;
 // BALL ARRAY
 var ball = []
 var ballRadius = 25;
@@ -123,14 +124,14 @@ function setup(){
   bounce: function(){
     if(this.x + this.radius > width){
       this.speed = random(BALLVELNEG);
-      this.x = 1222;
+      this.x = elmnt.offsetWidth - 25;
   } else if(this.x - this.radius < 0){
       this.speed = random(BALLVELPOS);
       this.x = 25;
   }
   if(this.y + this.radius > height){
     this.speedY = random(BALLVELNEG);
-    this.y = 907;
+    this.y = elmnt.offsetHeight - 25;
   } else if(this.y - this.radius < 0){
       this.speedY = random(BALLVELPOS);
         this.y = 25;
@@ -214,6 +215,25 @@ function login() {
   document.getElementById("landingPage").style.display = "none";
   document.getElementById("gamePage").style.display = "block";
   btnLogin.position(20000, 20000);
+}
+// WriteRec
+function writeRec() {
+  if (userDetails.uid != '') {
+    userDetails.score = score;
+    
+    // CALL YOUR WRITE A RECORD FUNCTION    <=================
+    fb_writeRec(DETAILS, userDetails.uid, userDetails);
+  }
+  else {
+    dbScore     = '';
+    writeStatus = '';
+    loginStatus = 'not logged in';
+  }
+}
+// ReadRec Function
+function readRec() {
+  // CALL YOUR READ A RECORD FUNCTION    <=================
+  fb_readRec(DETAILS, userDetails.uid, userDetails);
 }
 /*************************************************************/
 //      END OF APP
