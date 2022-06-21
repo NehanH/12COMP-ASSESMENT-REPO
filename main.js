@@ -21,6 +21,7 @@ var timerInterval;
 function startTimer(){
   hit = false;
   miss = 0;
+  score = 0;
   document.getElementById("score").innerHTML = score;
   document.getElementById("misses").innerHTML = miss;
   document.getElementById("gameStartBtn").style.display = "none";
