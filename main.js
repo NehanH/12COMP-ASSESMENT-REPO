@@ -6,24 +6,27 @@
 // VARIABLES
 /*************************************************************/
 const elmnt = document.getElementById("speedPC");
-
-
+// User Vars
+var hit = false;
+var score = 0;
+var count = 0;
+var miss = 0;
+var userHighscore = score;
 // BARRIER
 var spot = {
   x: 100,
   y: 100,
 }
-
 // TIMER
-const timer = document.getElementById("timer");
+const timer = document.getElementById("g_timer");
 var timerInterval;
 // Start Timer / Game
 function startTimer(){
   hit = false;
   miss = 0;
   score = 0;
-  document.getElementById("score").innerHTML = score;
-  document.getElementById("misses").innerHTML = miss;
+  document.getElementById("p_score").innerHTML = score;
+  document.getElementById("p_misses").innerHTML = miss;
   document.getElementById("gameStartBtn").style.display = "none";
   clearInterval(timerInterval);
   var second = 10;
@@ -42,6 +45,10 @@ timer.classList.toggle('odd');
     gameOver()
     
     }
+    if(second >= -1){
+  document.getElementById("p_score").innerHTML = score;
+  document.getElementById("p_misses").innerHTML = miss;
+    }
   }, 1000);
 };
 // Game Over Function
@@ -49,11 +56,10 @@ function gameOver(){
   document.getElementById("gameStartBtn").style.display = "block";
    cnv = createCanvas(0, 0);
   console.log(score + '/' + miss);
-  document.getElementById("score").innerHTML = score;
-  document.getElementById("misses").innerHTML = miss;
+  document.getElementById("p_score").innerHTML = score;
+  document.getElementById("p_misses").innerHTML = miss;
   
 }
-
 // RANDOM COLOUR
 var col = {
   r: 0,
@@ -64,32 +70,25 @@ var col = {
 const BALLVEL = [-7,-6,-5,-4,-3,3,4,5,6,7];
 const BALLVELNEG = [-7,-6,-5,-4,-3]
 const BALLVELPOS = [3,4,5,6,7]
-// SPEED
-
-var hit = false;
-var score = 0;
-var count = 0;
-var miss = 0;
-var userHighscore = score;
 // BALL ARRAY
 var ball = []
 var ballRadius = 25;
 var hits = 0;
 var px2ball = [];
-
+// Distance To Ball Function
 function dToBall (){
     for (i = 0; i < ball.length; i++) {
     px2ball[i] = dist(ball[i].x, ball[i].y, mouseX, mouseY);
   }
 }
-
+// Game Canvas Setup Function
 function setupCvs(){
   console.log(elmnt.offsetHeight + "/" + elmnt.offsetWidth);
 let cnv = createCanvas(elmnt.offsetWidth, elmnt.offsetHeight);
  cnv.parent('speedPC');
-  startTimer()
+  startTimer();
 }
-
+// Setup Function
 function setup(){
   fb_initialise();  
   createBtns()
@@ -155,11 +154,11 @@ function mouseClicked(){
   });
   if (hit == true) {
     score += 1;
-    console.log("score: "+ score);
+    console.log("p_score: "+ score);
   }
   else {
     miss += 1;
-    console.log("miss:" + miss);
+    console.log("p_miss:" + miss);
   }
 } 
 
@@ -173,9 +172,6 @@ function draw(){
  dToBall();
 }
 
-function start(){
- document.getElementById('h_taskName').innerHTML=TASKNAME;
-}
 
 // Hide Landing Page Show Game Page
 function loginButton() {
@@ -187,9 +183,11 @@ function speedButton(){
   document.getElementById("gamePage").style.display = "none";
   document.getElementById("speedPage").style.display = "block";
 }
+// Hide Game Page Show Track Page
 function trackButton(){
   
 }
+// Hide Game Page Show Flick Page
 function flickButton(){
   
 }
@@ -210,14 +208,14 @@ function createBtns(_x, _y) {
   btnLogin.style('font-size', FONTSIZE);
   btnLogin.mousePressed(login);
 }
-
+// Login Function
 function login() {
   fb_login(userDetails);
   document.getElementById("landingPage").style.display = "none";
   document.getElementById("gamePage").style.display = "block";
   btnLogin.position(20000, 20000);
 }
-// WriteRec
+// WriteRec Function
 function writeRec() {
   if (userDetails.uid != '') {
     userDetails.score = score;
