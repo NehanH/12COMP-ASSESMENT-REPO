@@ -11,7 +11,7 @@ var hit = false;
 var score = 0;
 var count = 0;
 var miss = 0;
-var userHighscore = score;
+var userHighscore
 // BARRIER
 var spot = {
   x: 100,

@@ -162,6 +162,8 @@ function fb_readRec(_path, _key, _data) {
       _data.email       = dbData.email;
       _data.photoURL    = dbData.photoURL;
       _data.score       = dbData.score;
+      console.log(dbData.score)
+      document.getElementById("currentHS").innerHTML = dbData.score;
     }
   };
 
