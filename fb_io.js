@@ -156,14 +156,15 @@ function fb_readRec(_path, _key, _data) {
       readStatus = 'no record'
     } else {
       readStatus = 'ok'
-      let dbData        = snapshot.val();
+      var dbData        = snapshot.val();
       _data.uid         = dbData.uid;
       _data.name        = dbData.name;
       _data.email       = dbData.email;
       _data.photoURL    = dbData.photoURL;
       _data.score       = dbData.score;
       console.log(dbData.score)
-      document.getElementById("currentHS").innerHTML = dbData.score;
+      document.getElementById("currentHS").innerHTML = dbData.score;''
+      
     }
   };
 

@@ -6,23 +6,45 @@
 // VARIABLES
 /*************************************************************/
 const elmnt = document.getElementById("speedPC");
-// User Vars
+
+// User Variables
 var hit = false;
 var score = 0;
 var count = 0;
 var miss = 0;
 var userHighscore
+
 // BARRIER
 var spot = {
   x: 100,
   y: 100,
 }
+
 // TIMER
 const timer = document.getElementById("g_timer");
 var timerInterval;
+
+// RANDOM COLOUR
+var col = {
+  r: 0,
+  g: 0,
+  b: 0,
+}
+
+// VELOCITY ARRAY
+const BALLVEL = [-7,-6,-5,-4,-3,3,4,5,6,7];
+const BALLVELNEG = [-7,-6,-5,-4,-3]
+const BALLVELPOS = [3,4,5,6,7]
+
+// BALL ARRAY
+var ball = []
+var ballRadius = 25;
+var hits = 0;
+var px2ball = [];
+
 // Start Timer / Game
 function startTimer(){
-  hit = false;
+  console.log(hit);
   miss = 0;
   score = 0;
   document.getElementById("p_score").innerHTML = score;
@@ -60,21 +82,6 @@ function gameOver(){
   document.getElementById("p_misses").innerHTML = miss;
   
 }
-// RANDOM COLOUR
-var col = {
-  r: 0,
-  g: 0,
-  b: 0,
-}
-// VELOCITY ARRAY
-const BALLVEL = [-7,-6,-5,-4,-3,3,4,5,6,7];
-const BALLVELNEG = [-7,-6,-5,-4,-3]
-const BALLVELPOS = [3,4,5,6,7]
-// BALL ARRAY
-var ball = []
-var ballRadius = 25;
-var hits = 0;
-var px2ball = [];
 // Distance To Ball Function
 function dToBall (){
     for (i = 0; i < ball.length; i++) {
@@ -91,6 +98,7 @@ let cnv = createCanvas(elmnt.offsetWidth, elmnt.offsetHeight);
 // Setup Function
 function setup(){
   fb_initialise();  
+  console.log(hit);
   createBtns()
   frameRate(60)
   var speed = random(BALLVEL);
@@ -139,9 +147,8 @@ function setup(){
     }
   }
   }
-
 }
-
+// Mouse Clicked Function
 function mouseClicked(){
   for (var i = 0; i < ball.length; i++) {
     if (px2ball[i] <= ballRadius) {
@@ -156,12 +163,12 @@ function mouseClicked(){
     score += 1;
     console.log("p_score: "+ score);
   }
-  else {
+  else{
     miss += 1;
     console.log("p_miss:" + miss);
   }
 } 
-
+// Draw Function
 function draw(){
   background(200, 200, 200);
   for (let i = 0; i < ball.length; i++) {
@@ -171,8 +178,6 @@ function draw(){
   }
  dToBall();
 }
-
-
 // Hide Landing Page Show Game Page
 function loginButton() {
   document.getElementById("landingPage").style.display = "none";
@@ -191,15 +196,14 @@ function trackButton(){
 function flickButton(){
   
 }
+// Buttons
 function createBtns(_x, _y) {  
   console.log("createBtns: x = " + _x + ",  y = " + _y);
-  
   const BTNCOL   = 'rgb(255, 255, 255)';
   const BTNW     = 100;
   const BTNH     = 70;
   const GAP      = 15;
   const FONTSIZE = '18px';
-  
   // create LOGIN button
   btnLogin = createButton('login');
   btnLogin.position(900, 200);

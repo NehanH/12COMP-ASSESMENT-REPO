@@ -56,19 +56,24 @@ canvas {
 }
 
 .gameTimer{
-  font-size: 50px;
+  font-size: 40px;
 }
 
 .subText{
-  font-size: 50px;
+  font-size: 40px;
 }
 
 .misses{
-  font-size: 50px;
+  font-size: 40px;
 }
 
 .score{
-  font-size: 50px;
+  font-size: 40px;
+}
+
+.paraText{
+  font-size: 25px;
+  color: black;
 }
 /*------------------------------------------------------------*
   Page styling
