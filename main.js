@@ -44,6 +44,7 @@ var px2ball = [];
 
 // Start Timer / Game
 function startTimer(){
+  readRec();
   console.log(hit);
   miss = 0;
   score = 0;
