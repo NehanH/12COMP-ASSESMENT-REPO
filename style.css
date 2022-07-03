@@ -51,6 +51,11 @@ canvas {
   height: 100vh
 }
 
+#flickPage {
+  display: none;
+  height: 100vh
+}
+
 .button1{
   font-size: 34px;
 }
@@ -107,20 +112,18 @@ p {
 }
 
 /*------------------------------------------------------------*
-  ADMIN page & BUTTON styling
+  REGISTRATION page styling
 /*------------------------------------------------------------*/
-#s_adminPage {
+#registrationPage {
   display: none;
-  height: 86vh;
-  overflow: scroll;
+  height:  100%;
+  width: 50%;
+  /* The line below is just so you can see the form during testing //<========*/ 
 }
 
-#b_lpAdmin {
-  display: none;   /* none = don't display element */
-}
-
-#b_gpAdmin {
-  display: none;   /* none = don't display element */
+.transparentBG {
+  background: rgba(169, 169, 169, 0.7);
+  color: black;
 }
 
 /*************************************************************

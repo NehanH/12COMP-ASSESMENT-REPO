@@ -134,13 +134,6 @@ function createBtns(_x, _y) {
 // Input:
 // Return:
 /*****************************************************/
-function login() {
-  fb_login(userDetails);
-  document.getElementById("landingPage").style.display = "none";
-  document.getElementById("gamePage").style.display = "block";
-  btnLogin.position(20000, 20000);
-}
-
 /*****************************************************/
 // readAll()
 // Input event; called when user clicks READ ALL button

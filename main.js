@@ -12,8 +12,7 @@ var hit = false;
 var score = 0;
 var count = 0;
 var miss = 0;
-var userHighscore
-
+var userHighscore;
 // BARRIER
 var spot = {
   x: 100,
@@ -44,7 +43,6 @@ var px2ball = [];
 
 // Start Timer / Game
 function startTimer(){
-  readRec();
   console.log(hit);
   miss = 0;
   score = 0;
@@ -179,11 +177,7 @@ function draw(){
   }
  dToBall();
 }
-// Hide Landing Page Show Game Page
-function loginButton() {
-  document.getElementById("landingPage").style.display = "none";
-  document.getElementById("gamePage").style.display = "block";
-}
+
 // Hide Game Page Show Speed Page
 function speedButton(){
   document.getElementById("gamePage").style.display = "none";
@@ -195,7 +189,9 @@ function trackButton(){
 }
 // Hide Game Page Show Flick Page
 function flickButton(){
-  
+  var flick = true;
+  document.getElementById("gamePage").style.display = "none";
+  document.getElementById("flickPage").style.display = "block";
 }
 // Buttons
 function createBtns(_x, _y) {  
@@ -216,9 +212,16 @@ function createBtns(_x, _y) {
 // Login Function
 function login() {
   fb_login(userDetails);
+  if(loginStatus == 'logged in' && userDetails.gameName != ''){
   document.getElementById("landingPage").style.display = "none";
-  document.getElementById("gamePage").style.display = "block";
   btnLogin.position(20000, 20000);
+  document.getElementById("gamePage").style.display = "block";
+  } else if (loginStatus == 'logged in' && userDetails.gameName == ''){
+  document.getElementById("landingPage").style.display = "none";
+  btnLogin.position(20000, 20000);
+  document.getElementById("registrationPage").style.display = "block";
+  regEmailName();
+  }
 }
 // WriteRec Function
 function writeRec() {
