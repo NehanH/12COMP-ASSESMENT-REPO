@@ -12,7 +12,8 @@ var hit = false;
 var score = 0;
 var count = 0;
 var miss = 0;
-var userHighscore;
+var userHighscore
+
 // BARRIER
 var spot = {
   x: 100,
@@ -29,7 +30,13 @@ var col = {
   g: 0,
   b: 0,
 }
-
+var userDetails = {
+  uid:      'n/a',
+  email:    'n/a',
+  name:     'n/a',
+  photoURL: 'n/a',
+  score:    'n/a',
+};
 // VELOCITY ARRAY
 const BALLVEL = [-7,-6,-5,-4,-3,3,4,5,6,7];
 const BALLVELNEG = [-7,-6,-5,-4,-3]
@@ -43,6 +50,11 @@ var px2ball = [];
 
 // Start Timer / Game
 function startTimer(){
+  readRec();
+  var userGameName = userDetails.gameName;
+  var userPhone = userDetails.phone;
+  console.log(userGameName);
+  console.log(userPhone);
   console.log(hit);
   miss = 0;
   score = 0;
@@ -189,9 +201,7 @@ function trackButton(){
 }
 // Hide Game Page Show Flick Page
 function flickButton(){
-  var flick = true;
-  document.getElementById("gamePage").style.display = "none";
-  document.getElementById("flickPage").style.display = "block";
+  
 }
 // Buttons
 function createBtns(_x, _y) {  
@@ -212,11 +222,14 @@ function createBtns(_x, _y) {
 // Login Function
 function login() {
   fb_login(userDetails);
-  if(loginStatus == 'logged in' && userDetails.gameName != ''){
+  console.log(loginStatus);
+  console.log(userDetails.gameName)
+  if(loginStatus == 'logged in' && userDetails.gameName != 'n/a'){
   document.getElementById("landingPage").style.display = "none";
   btnLogin.position(20000, 20000);
   document.getElementById("gamePage").style.display = "block";
-  } else if (loginStatus == 'logged in' && userDetails.gameName == ''){
+  regEmailName();
+  } else if (loginStatus == 'logged in' && userDetails.gameName == 'n/a'){
   document.getElementById("landingPage").style.display = "none";
   btnLogin.position(20000, 20000);
   document.getElementById("registrationPage").style.display = "block";
@@ -237,6 +250,7 @@ function writeRec() {
     loginStatus = 'not logged in';
   }
 }
+
 // ReadRec Function
 function readRec() {
   // CALL YOUR READ A RECORD FUNCTION    <=================

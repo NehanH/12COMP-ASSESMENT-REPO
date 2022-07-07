@@ -86,8 +86,20 @@ function fb_login(_dataRec) {
 // Input:  path to write to, the key, data to write
 // Return: 
 /*****************************************************/
-
 function fb_writeRec(_path, _key, _data) { 
+    firebase.database().ref(_path + '/' + _key).set(_data,
+      function(error){
+        if (error) {
+     writeStatus = 'failed'
+      } else {
+      writeStatus = 'ok'
+      }
+    }
+  );
+}
+
+
+  function Backupfb_writeRec(_path, _key, _data) { 
     console.log('fb_WriteRec: path= ' + _path + '  key= ' + _key +
                  '  data= ' + _data.name + '/' + _data.score);
     writeStatus = 'waiting'
@@ -100,7 +112,8 @@ function fb_writeRec(_path, _key, _data) {
       }
     }
   );
-}
+  }
+
 
 /*****************************************************/
 // fb_readAll(_path, _data)

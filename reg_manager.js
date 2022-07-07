@@ -46,7 +46,6 @@ function regEmailName(){
 /**************************************************************/
 function reg_regDetailsEntered() {
   console.log('reg_regDetailsEntered'); 
-     
   // Save player1's details from the form into your details object
   //  ENSURE THE OBJECT NAME THE PROGRAM SAVES TO IS CORRECT; 
   //    its currently details                                           //<======= 
@@ -56,10 +55,10 @@ function reg_regDetailsEntered() {
   console.log("reg_regDetailsEntered: form passed html validation - " +
             document.getElementById('f_reg').checkValidity()); 
 
-  // Only write record to DB if all the fom's input passed html validation
+  // Only write record to DB if all the form's input passed html validation
   if (document.getElementById('f_reg').checkValidity()) {
     // call your function to write to details record firebase         //<=======
-    writeRec();
+    fb_writeRec(DETAILS, userDetails.uid, userDetails);
     document.getElementById("registrationPage").style.display = "none";
     document.getElementById("gamePage").style.display = "block";
 
