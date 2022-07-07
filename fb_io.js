@@ -48,6 +48,8 @@ function fb_login(_dataRec) {
       _dataRec.email    = user.email;
       _dataRec.name     = user.displayName;
       _dataRec.photoURL = user.photoURL;
+      _dataRec.gameName = user.gameName;
+      _dataRec.phone    = user.phone;
       loginStatus = 'logged in';
       console.log('fb_login: status = ' + loginStatus);
     } 
@@ -63,6 +65,8 @@ function fb_login(_dataRec) {
         _dataRec.email    = user.email;
         _dataRec.name     = user.displayName;
         _dataRec.photoURL = user.photoURL;
+        _dataRec.gameName = user.gameName;
+        _dataRec.phone    = user.phone;
         loginStatus = 'logged in via popup';
         console.log('fb_login: status via popup= ' + loginStatus);
       })
@@ -87,6 +91,8 @@ function fb_login(_dataRec) {
 // Return: 
 /*****************************************************/
 function fb_writeRec(_path, _key, _data) { 
+      console.log('fb_WriteRec: path= ' + _path + '  key= ' + _key +
+                 '  data= ' + _data.name + '/' + _data.gameName);
     firebase.database().ref(_path + '/' + _key).set(_data,
       function(error){
         if (error) {
@@ -175,7 +181,9 @@ function fb_readRec(_path, _key, _data) {
       _data.email       = dbData.email;
       _data.photoURL    = dbData.photoURL;
       _data.score       = dbData.score;
-      console.log(dbData.score)
+      _data.gameName    = dbData.gameName;
+      _data.phone       = dbData.phone;
+      console.log(dbData.gameName)
       document.getElementById("currentHS").innerHTML = dbData.score;''
       
     }

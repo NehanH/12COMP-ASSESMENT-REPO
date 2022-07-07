@@ -30,13 +30,25 @@ var col = {
   g: 0,
   b: 0,
 }
+
+/*dbdbdbdbdbdbdbdbdbdbdbdbdbdbdbdbdbdbdbdbdb*/
+// database variables
+const DETAILS = "userDetails";      //<=============== INSERT YOUR FIREBASE PATH NAME HERE
+
+var loginStatus = ' ';
+var readStatus  = ' ';
+var writeStatus = ' ';
+
 var userDetails = {
   uid:      'n/a',
   email:    'n/a',
   name:     'n/a',
   photoURL: 'n/a',
   score:    'n/a',
+  gameName: 'n/a',
+  phone:    'n/a'
 };
+
 // VELOCITY ARRAY
 const BALLVEL = [-7,-6,-5,-4,-3,3,4,5,6,7];
 const BALLVELNEG = [-7,-6,-5,-4,-3]
@@ -108,7 +120,8 @@ let cnv = createCanvas(elmnt.offsetWidth, elmnt.offsetHeight);
 }
 // Setup Function
 function setup(){
-  fb_initialise();  
+  fb_initialise();
+    readRec();
   console.log(hit);
   createBtns()
   frameRate(60)
@@ -159,6 +172,9 @@ function setup(){
   }
   }
 }
+
+var database = firebase.database();
+
 // Mouse Clicked Function
 function mouseClicked(){
   for (var i = 0; i < ball.length; i++) {
@@ -221,15 +237,17 @@ function createBtns(_x, _y) {
 }
 // Login Function
 function login() {
+  readRec();
   fb_login(userDetails);
   console.log(loginStatus);
+  if(loginStatus == 'logged in' && userDetails.gameName != 'undefined'){
   console.log(userDetails.gameName)
-  if(loginStatus == 'logged in' && userDetails.gameName != 'n/a'){
   document.getElementById("landingPage").style.display = "none";
   btnLogin.position(20000, 20000);
   document.getElementById("gamePage").style.display = "block";
   regEmailName();
-  } else if (loginStatus == 'logged in' && userDetails.gameName == 'n/a'){
+  } else if (loginStatus == 'logged in' && userDetails.gameName == 'undefined'){
+  console.log(userDetails.gameName)
   document.getElementById("landingPage").style.display = "none";
   btnLogin.position(20000, 20000);
   document.getElementById("registrationPage").style.display = "block";
