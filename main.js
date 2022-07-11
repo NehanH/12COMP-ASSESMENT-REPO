@@ -38,6 +38,7 @@ const DETAILS = "userDetails";      //<=============== INSERT YOUR FIREBASE PATH
 var loginStatus = ' ';
 var readStatus  = ' ';
 var writeStatus = ' ';
+var readSuccess = ' ';
 
 var userDetails = {
   uid:      'n/a',
@@ -118,10 +119,14 @@ let cnv = createCanvas(elmnt.offsetWidth, elmnt.offsetHeight);
  cnv.parent('speedPC');
   startTimer();
 }
+function initReadRec(){
+  readRec();
+  console.log(readSuccess);
+}
 // Setup Function
 function setup(){
   fb_initialise();
-    readRec();
+  initReadRec();
   console.log(hit);
   createBtns()
   frameRate(60)
