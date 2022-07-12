@@ -50,6 +50,7 @@ var userDetails = {
   phone:    'n/a'
 };
 
+
 // VELOCITY ARRAY
 const BALLVEL = [-7,-6,-5,-4,-3,3,4,5,6,7];
 const BALLVELNEG = [-7,-6,-5,-4,-3]
@@ -66,11 +67,11 @@ function startTimer(){
   readRec();
   var userGameName = userDetails.gameName;
   var userPhone = userDetails.phone;
-  console.log(userGameName);
   console.log(userPhone);
   console.log(hit);
   miss = 0;
   score = 0;
+  document.getElementById("currentHS").innerHTML = userDetails.score;
   document.getElementById("p_score").innerHTML = score;
   document.getElementById("p_misses").innerHTML = miss;
   document.getElementById("gameStartBtn").style.display = "none";
@@ -238,23 +239,25 @@ function createBtns(_x, _y) {
 }
 // Login Function
 function login() {
-  readAll();
+  readRec();
   fb_login(userDetails);
   console.log(loginStatus);
-  if(loginStatus == 'logged in' && userDetails.gameName != 'undefined'){
+  var user = firebase.auth().currentUser;
+  if (user) {
   console.log(userDetails.gameName)
   document.getElementById("landingPage").style.display = "none";
   btnLogin.position(20000, 20000);
   document.getElementById("gamePage").style.display = "block";
   regEmailName();
-  } else if (loginStatus == 'logged in' && userDetails.gameName == 'undefined'){
+  } else {
   console.log(userDetails.gameName)
   document.getElementById("landingPage").style.display = "none";
   btnLogin.position(20000, 20000);
   document.getElementById("registrationPage").style.display = "block";
   regEmailName();
-  }
+  } 
 }
+
 // WriteRec Function
 function writeRec() {
   if (userDetails.uid != '') {
@@ -274,11 +277,6 @@ function writeRec() {
 function readRec() {
   // CALL YOUR READ A RECORD FUNCTION    <=================
   fb_readRec(DETAILS, userDetails.uid, userDetails);
-}
-
-function readAll() {
-  // CALL YOUR READ ALL FUNCTION        <=================
-  fb_readAll(DETAILS, dbArray);
 }
 /*************************************************************/
 //      END OF APP
