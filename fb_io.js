@@ -174,19 +174,13 @@ function fb_readRec(_path, _key, _data) {
     if(snapshot.val() == null){
       readStatus = 'no record'
     } else {
-      readSuccess = 'yes'
-      console.log(readStatus);
-      var dbData        = snapshot.val();
+      readStatus = 'ok'
+      let dbData        = snapshot.val();
       _data.uid         = dbData.uid;
       _data.name        = dbData.name;
       _data.email       = dbData.email;
       _data.photoURL    = dbData.photoURL;
       _data.score       = dbData.score;
-      _data.gameName    = dbData.gameName;
-      _data.phone       = dbData.phone;
-      console.log(dbData.gameName)
-      document.getElementById("currentHS").innerHTML = dbData.score;
-      
     }
   };
 
@@ -195,7 +189,6 @@ function fb_readRec(_path, _key, _data) {
   }
   
 }
-
 /*****************************************************/
 //    END OF MODULE
 /*****************************************************/

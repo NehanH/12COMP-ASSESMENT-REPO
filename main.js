@@ -119,14 +119,10 @@ let cnv = createCanvas(elmnt.offsetWidth, elmnt.offsetHeight);
  cnv.parent('speedPC');
   startTimer();
 }
-function initReadRec(){
-  readRec();
-  console.log(readSuccess);
-}
+
 // Setup Function
 function setup(){
   fb_initialise();
-  initReadRec();
   console.log(hit);
   createBtns()
   frameRate(60)
@@ -242,7 +238,7 @@ function createBtns(_x, _y) {
 }
 // Login Function
 function login() {
-  readRec();
+  readAll();
   fb_login(userDetails);
   console.log(loginStatus);
   if(loginStatus == 'logged in' && userDetails.gameName != 'undefined'){
@@ -278,6 +274,11 @@ function writeRec() {
 function readRec() {
   // CALL YOUR READ A RECORD FUNCTION    <=================
   fb_readRec(DETAILS, userDetails.uid, userDetails);
+}
+
+function readAll() {
+  // CALL YOUR READ ALL FUNCTION        <=================
+  fb_readAll(DETAILS, dbArray);
 }
 /*************************************************************/
 //      END OF APP
