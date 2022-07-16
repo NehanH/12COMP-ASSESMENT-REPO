@@ -199,6 +199,7 @@ function mouseClicked(){
 } 
 // Draw Function
 function draw(){
+  regEmailName()
   background(200, 200, 200);
   for (let i = 0; i < ball.length; i++) {
   ball[i].bounce();
@@ -257,6 +258,8 @@ function login() {
   regEmailName();
   } 
 }
+
+
 
 // WriteRec Function
 function writeRec() {

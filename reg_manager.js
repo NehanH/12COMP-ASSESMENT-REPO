@@ -31,8 +31,6 @@
   // Save name & email into the form
   // ENSURE THE OBJECT NAME IS CORRECT; its currently details           //<======= 
 function regEmailName(){
-  console.log('this is working')
-  console.log(userDetails.uid);
   document.getElementById("p_regName").innerHTML  = userDetails.name        //<=======    
   document.getElementById("p_regEmail").innerHTML = userDetails.email       //<=======
 }
