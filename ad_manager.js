@@ -44,12 +44,13 @@
 /**************************************************************/
 function ad_admin() {
   console.log('ad_admin: ');
-  
+  console.log('ad_admin is working')
   // Display the ADMIN screen
   // ENSURE THE HTML ID ARE CORRECT                                      //<=======
-  s_gamePage.style.display    = "none";                                  //<=======
-  s_landingPage.style.display = "none";                                  //<=======
+  gamePage.style.display    = "none";                                  //<=======
+  landingPage.style.display = "none";                                  //<=======
   s_adminPage.style.display   = "block";                                 //<=======
+  btnLogin.position(20000, 20000);
   
   ad_user();
 }
@@ -66,9 +67,10 @@ function ad_home() {
 
   // Display the HOME (landing page) screen
   // ENSURE THE HTML ID ARE CORRECT                                      //<=======
-  s_gamePage.style.display    = "none";                                  //<=======
+  gamePage.style.display    = "none";                                  //<=======
   s_adminPage.style.display   = "none";                                  //<=======
-  s_landingPage.style.display = "block";                                 //<=======
+  landingPage.style.display = "block";                                 //<=======
+  btnLogin.position(900, 200);
 }
 
 /**************************************************************/
@@ -80,12 +82,12 @@ function ad_home() {
 /**************************************************************/
 function ad_user() {
   console.log('ad_user: ');
-
+  console.log('ad_user is working')
   document.getElementById("b_adUser").style.backgroundColor = "cyan";
   document.getElementById("b_adHome").style.backgroundColor = "grey";
   document.getElementById("b_adBB").style.backgroundColor   = "grey";
   // ENSURE THE READ FUNCTION NAME & THE PATH NAME ARE CORRECT           //<=======
-  fb_readAll(DETAILS, ad_processUSERReadAll);                            //<=======
+  fb_readAll(DETAILS, [], ad_processUSERReadAll);                            //<=======
 }
 
 /**************************************************************/
@@ -102,7 +104,7 @@ function ad_BB() {
   document.getElementById("b_adUser").style.backgroundColor = "grey";
   document.getElementById("b_adHome").style.backgroundColor = "grey"; 
   // ENSURE THE READ FUNCTION NAME & THE PATH NAME ARE CORRECT           //<=======
-  fb_readAll(BB, ad_processBBReadAll);                                   //<=======
+  fb_readAll(DETAILS, ad_processUSERReadAll);                                   //<=======
 }
 
 /**************************************************************/
@@ -121,7 +123,8 @@ function ad_processUSERReadAll(_result, _dbRec) {
   var ad_adminArray = [];
 
   // Note: if read was successful, 1st input parameter must = "OK"       //<=======
-  if (_result == 'OK') {                                        
+  if (_result != null) {            
+    console.log('ad_process is working')
     _dbRec.forEach(function(childSnapshot) {
       childKey = childSnapshot.key;
       childData = childSnapshot.val();
@@ -136,12 +139,6 @@ function ad_processUSERReadAll(_result, _dbRec) {
         gameName:     childData.gameName,
         phone:        childData.phone,
         age:          childData.age,
-        sex:          childData.sex,
-        addrNum:      childData.addrNum,
-        addrSt:       childData.addrSt,
-        addrSuburb:   childData.addrSuburb,
-        addrCity:     childData.addrCity,
-        addrPostCode: childData.addrPostCode,
         uid:          childKey
       });
     });
@@ -154,7 +151,8 @@ function ad_processUSERReadAll(_result, _dbRec) {
     //  7 = COLUMMN NUMBER WHICH CONTAINS THE DATABASE KEY.              //<=======
     //  8 = DATABASE PATH THE RECORDS WERE READ FROM.                    //<=======
     ad_displayAll("t_userData", ad_adminArray, true,                     
-      "s_landingPage", "s_gamePage", "s_adminPage", 12, DETAILS);        //<=======
+      "landingPage", "gamePage", "s_adminPage", 6, DETAILS);        //<=======
+    console.log('this is working')
   }
 }
 
@@ -184,8 +182,7 @@ function ad_processBBReadAll(_result, _dbRec) {
       //  MATCH YOUR FIREBASE RECORDS FOR THE PATH                       //<=======
       ad_adminArray.push({     
         uid:  childKey,
-        hits: childData.hits,
-        time: childData.time
+        score: childData.score,
       });
     });
 
@@ -194,10 +191,10 @@ function ad_processBBReadAll(_result, _dbRec) {
     //  7 = COLUMMN NUMBER WHICH CONTAINS THE DATABASE KEY.              //<=======
     //  8 = DATABASE PATH THE RECORDS WERE READ FROM.                    //<=======
     ad_displayAll("t_userData", ad_adminArray, true, "", "", "", 
-                  1, BB);                                                //<=======
+                  7, DETAILS);                                                //<=======
   } else if (_result == 'n/a') {
     ad_displayAll("t_userData", ad_adminArray, true, "", "", "", 
-                  1, BB);                                                //<=======
+                  7, DETAILS);                                                //<=======
   }
 }
 
@@ -215,29 +212,15 @@ function ad_userInput(_feildName, _data) {
   //   AND THE DATATYPE IS CORRECTLY SET                                //<=======
   var vd_dataTypes = {            
     name:         'a',
-	email:        'b',
+  	email:        'b',
     // Left photoURL out - its so long the table will be too wide for screen
     //photoURL:   'b', 
     gameName:     'b',
     phone:        'n',
-    age:          'n',
-    sex:          'a',
-    addrNum:      'n',
-    addrSt:       'a',
-    addrSuburb:   'a',
-    addrCity:     'a',
-    addrPostCode: 'n',
     uid:          'b',
- 
-    BBLevel:      'n',
-    BBFails:      'n',
-    BBHits:       'n',
-    BBMiss:       'n',
-    BBTime:       'n',
-  
-    TTWin:        'a',
-    TTTLoss:      'n',
-    TTTTime:      'n'
+
+    score:        'n',
+
   };
     
   if (vd_dataTypes[_feildName] == 'n') {

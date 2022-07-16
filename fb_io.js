@@ -121,13 +121,23 @@ function fb_writeRec(_path, _key, _data) {
   }
 
 
+function fb_processAll(_data, dbData, dbKeys) {
+  dbData = dbData.val();
+  for(i=0; i < dbKeys.length; i++) {
+    let key = dbKeys[i];
+    _data.push({
+      username: dbData[key].username,
+      score: dbData[key].score
+    });
+  }
+}
 /*****************************************************/
 // fb_readAll(_path, _data)
 // Read all DB records for the path
 // Input:  path to read from and where to save it
 // Return:
 /*****************************************************/
-function fb_readAll(_path, _data) {
+function fb_readAll(_path, _data, _processAll) {
   console.log('fb_readAll: path= ' + _path);
 
     readStatus = 'waiting'
@@ -141,19 +151,13 @@ function fb_readAll(_path, _data) {
       let dbData        = snapshot.val();
       console.log(dbData);
       let dbKeys = Object.keys(dbData);
+    _processAll(_data, snapshot, dbKeys)
 
-
-      for(i=0; i < dbKeys.length; i++){
-        let key = dbKeys[i];
-        _data.push({
-          name: dbData[key].name,
-          score: dbData[key].score,
-        })
-      }
     }
   };
   function readErr (error){
     readStatus = 'failed'
+     _processAll(_data, snapshot, dbKeys)
   }
   
 }

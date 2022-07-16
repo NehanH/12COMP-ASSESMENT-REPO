@@ -259,7 +259,11 @@ function login() {
   } 
 }
 
-
+// Read All Function
+function readAll() {
+  // CALL YOUR READ ALL FUNCTION        <=================
+  fb_readAll(DETAILS, dbArray);
+}
 
 // WriteRec Function
 function writeRec() {
