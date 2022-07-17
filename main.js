@@ -124,7 +124,6 @@ let cnv = createCanvas(elmnt.offsetWidth, elmnt.offsetHeight);
 // Setup Function
 function setup(){
   fb_initialise();
-  console.log(hit);
   createBtns()
   frameRate(60)
   var speed = random(BALLVEL);
