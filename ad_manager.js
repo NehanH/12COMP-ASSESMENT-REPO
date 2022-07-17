@@ -133,12 +133,13 @@ function ad_processUSERReadAll(_result, _dbRec) {
       //  MATCH YOUR FIREBASE RECORDS FOR THE PATH                       //<=======
       ad_adminArray.push({
         name:         childData.name,
-	    email:        childData.email,
+	      email:        childData.email,
         // Left photoURL out as its so long the table will be too wide for the screen
         //photoURL:   childData.photoURL,  
         gameName:     childData.gameName,
         phone:        childData.phone,
         age:          childData.age,
+        score:        childData.score,
         uid:          childKey
       });
     });
@@ -151,7 +152,7 @@ function ad_processUSERReadAll(_result, _dbRec) {
     //  7 = COLUMMN NUMBER WHICH CONTAINS THE DATABASE KEY.              //<=======
     //  8 = DATABASE PATH THE RECORDS WERE READ FROM.                    //<=======
     ad_displayAll("t_userData", ad_adminArray, true,                     
-      "landingPage", "gamePage", "s_adminPage", 6, DETAILS);        //<=======
+      "landingPage", "gamePage", "s_adminPage", 7, DETAILS);        //<=======
     console.log('this is working')
   }
 }
