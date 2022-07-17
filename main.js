@@ -196,9 +196,18 @@ function mouseClicked(){
     console.log("p_miss:" + miss);
   }
 } 
+
 // Draw Function
 function draw(){
+  // Check for admin
+    if(userDetails.uid == "G9TvVr0Ghmax01PnbVqahEAlTM93" || userDetails.uid == "9hdsPQ3Ru8bqKieUxsbnDJ64AEI3") {
+      document.getElementById("b_lpAdmin").style.display = "block";
+    } else {
+      document.getElementById("b_lpAdmin").style.display = "none";
+    }
+  // Set Form Name And Email
   regEmailName()
+  // Canvas
   background(200, 200, 200);
   for (let i = 0; i < ball.length; i++) {
   ball[i].bounce();
