@@ -258,7 +258,7 @@ function login() {
   btnLogin.position(20000, 20000);
   document.getElementById("gamePage").style.display = "block";
   regEmailName();
-  } else {
+  } else if (user == null){
   console.log(userDetails.gameName)
   document.getElementById("landingPage").style.display = "none";
   btnLogin.position(20000, 20000);
