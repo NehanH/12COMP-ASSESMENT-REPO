@@ -65,16 +65,14 @@ var px2ball = [];
 // Start Timer / Game
 function startTimer(){
   readRec();
-  var userGameName = userDetails.gameName;
-  var userPhone = userDetails.phone;
-  console.log(userPhone);
-  console.log(hit);
+  // reset misses + score
   miss = 0;
   score = 0;
   document.getElementById("currentHS").innerHTML = userDetails.score;
   document.getElementById("p_score").innerHTML = score;
   document.getElementById("p_misses").innerHTML = miss;
-  document.getElementById("gameStartBtn").style.display = "none";
+  document.getElementById("b_start").style.display = "none";
+  // timer
   clearInterval(timerInterval);
   var second = 10;
   var minute = 0;
@@ -87,11 +85,13 @@ timer.classList.toggle('odd');
       ":" +
       (second < 10 ? "0" + second : second);
     second--;
+    // when timer finishes
     if (second == -1) {
     clearInterval(timerInterval);
     gameOver()
     
     }
+    // if timer is still going
     if(second >= -1){
   document.getElementById("p_score").innerHTML = score;
   document.getElementById("p_misses").innerHTML = miss;
@@ -100,20 +100,28 @@ timer.classList.toggle('odd');
 };
 // Game Over Function
 function gameOver(){
-  document.getElementById("gameStartBtn").style.display = "block";
+  // bring back start button
+  document.getElementById("b_start").style.display = "block";
+  // check for highscore
+  if(userDetails.score <= score || userDetails.score == 'n/a'){
+    writeRec();
+  }
    cnv = createCanvas(0, 0);
-  console.log(score + '/' + miss);
+  // update metrics
+  document.getElementById("currentHS").innerHTML = userDetails.score;
   document.getElementById("p_score").innerHTML = score;
   document.getElementById("p_misses").innerHTML = miss;
-  
 }
+
 // Distance To Ball Function
 function dToBall (){
     for (i = 0; i < ball.length; i++) {
     px2ball[i] = dist(ball[i].x, ball[i].y, mouseX, mouseY);
   }
 }
+
 // Game Canvas Setup Function
+// called by start button
 function setupCvs(){
   console.log(elmnt.offsetHeight + "/" + elmnt.offsetWidth);
 let cnv = createCanvas(elmnt.offsetWidth, elmnt.offsetHeight);
@@ -130,6 +138,7 @@ function setup(){
   var speed = random(BALLVEL);
   var speedY = random(BALLVEL);
   createCanvas(0, 0); 
+  // bouncing ball object
   for (let i = 0; i < 3; i++) {
       ball[i] = {
         
@@ -178,6 +187,7 @@ function setup(){
 var database = firebase.database();
 
 // Mouse Clicked Function
+// calculating misses + scores
 function mouseClicked(){
   for (var i = 0; i < ball.length; i++) {
     if (px2ball[i] <= ballRadius) {
@@ -207,9 +217,10 @@ function draw(){
       document.getElementById("b_lpAdmin").style.display = "none";
     }
   // Set Form Name And Email
-  regEmailName()
+    regEmailName()
   // Canvas
   background(200, 200, 200);
+  // Ball object
   for (let i = 0; i < ball.length; i++) {
   ball[i].bounce();
   ball[i].display();
@@ -220,18 +231,11 @@ function draw(){
 
 // Hide Game Page Show Speed Page
 function speedButton(){
-  document.getElementById("gamePage").style.display = "none";
-  document.getElementById("speedPage").style.display = "block";
+  document.getElementById("gp").style.display = "none";
+  document.getElementById("sp").style.display = "block";
 }
-// Hide Game Page Show Track Page
-function trackButton(){
-  
-}
-// Hide Game Page Show Flick Page
-function flickButton(){
-  
-}
-// Buttons
+
+// Login Button
 function createBtns(_x, _y) {  
   console.log("createBtns: x = " + _x + ",  y = " + _y);
   const BTNCOL   = 'rgb(255, 255, 255)';
@@ -255,15 +259,15 @@ function login() {
   const user = firebase.auth().currentUser;
   if (user) {
   console.log(userDetails.gameName)
-  document.getElementById("landingPage").style.display = "none";
+  document.getElementById("lp").style.display = "none";
   btnLogin.position(20000, 20000);
-  document.getElementById("gamePage").style.display = "block";
+  document.getElementById("gp").style.display = "block";
   regEmailName();
   } else if (user == null) {
   console.log(userDetails.gameName)
-  document.getElementById("landingPage").style.display = "none";
+  document.getElementById("lp").style.display = "none";
   btnLogin.position(20000, 20000);
-  document.getElementById("registrationPage").style.display = "block";
+  document.getElementById("rp").style.display = "block";
   regEmailName();
   }
 }

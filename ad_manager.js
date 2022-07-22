@@ -47,8 +47,8 @@ function ad_admin() {
   console.log('ad_admin is working')
   // Display the ADMIN screen
   // ENSURE THE HTML ID ARE CORRECT                                      //<=======
-  gamePage.style.display    = "none";                                  //<=======
-  landingPage.style.display = "none";                                  //<=======
+  gp.style.display    = "none";                                  //<=======
+  lp.style.display = "none";                                  //<=======
   s_adminPage.style.display   = "block";                                 //<=======
   btnLogin.position(20000, 20000);
   
@@ -67,9 +67,9 @@ function ad_home() {
 
   // Display the HOME (landing page) screen
   // ENSURE THE HTML ID ARE CORRECT                                      //<=======
-  gamePage.style.display    = "none";                                  //<=======
+  gp.style.display    = "none";                                  //<=======
   s_adminPage.style.display   = "none";                                  //<=======
-  landingPage.style.display = "block";                                 //<=======
+  lp.style.display = "block";                                 //<=======
   btnLogin.position(900, 200);
 }
 
@@ -85,7 +85,6 @@ function ad_user() {
   console.log('ad_user is working')
   document.getElementById("b_adUser").style.backgroundColor = "cyan";
   document.getElementById("b_adHome").style.backgroundColor = "grey";
-  document.getElementById("b_adBB").style.backgroundColor   = "grey";
   // ENSURE THE READ FUNCTION NAME & THE PATH NAME ARE CORRECT           //<=======
   fb_readAll(DETAILS, [], ad_processUSERReadAll);                            //<=======
 }
@@ -100,7 +99,6 @@ function ad_user() {
 function ad_BB() {
   console.log('ad_BB: ');
   
-  document.getElementById("b_adBB").style.backgroundColor   = "cyan";
   document.getElementById("b_adUser").style.backgroundColor = "grey";
   document.getElementById("b_adHome").style.backgroundColor = "grey"; 
   // ENSURE THE READ FUNCTION NAME & THE PATH NAME ARE CORRECT           //<=======
@@ -152,7 +150,7 @@ function ad_processUSERReadAll(_result, _dbRec) {
     //  7 = COLUMMN NUMBER WHICH CONTAINS THE DATABASE KEY.              //<=======
     //  8 = DATABASE PATH THE RECORDS WERE READ FROM.                    //<=======
     ad_displayAll("t_userData", ad_adminArray, true,                     
-      "landingPage", "gamePage", "s_adminPage", 7, DETAILS);        //<=======
+      "lp", "gp", "s_adminPage", 7, DETAILS);        //<=======
     console.log('this is working')
   }
 }

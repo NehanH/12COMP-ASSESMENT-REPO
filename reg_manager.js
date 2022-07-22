@@ -57,8 +57,8 @@ function reg_regDetailsEntered() {
   if (document.getElementById('f_reg').checkValidity()) {
     // call your function to write to details record firebase         //<=======
     fb_writeRec(DETAILS, userDetails.uid, userDetails);
-    document.getElementById("registrationPage").style.display = "none";
-    document.getElementById("gamePage").style.display = "block";
+    document.getElementById("rp").style.display = "none";
+    document.getElementById("gp").style.display = "block";
 
   }
 }

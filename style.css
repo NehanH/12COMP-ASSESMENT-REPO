@@ -16,7 +16,7 @@ canvas {
 }
 
 
-#landingPage{
+#lp{
   display: block;
   height: 100vh;
 }
@@ -41,12 +41,12 @@ canvas {
   
 }
 
-#gamePage{
+#gp{
   display: none;
   height: 100vh;
 }
 
-#speedPage{
+#sp{
   display: none;
   height: 100vh
 }
@@ -109,7 +109,7 @@ p {
 /*------------------------------------------------------------*
   REGISTRATION page styling
 /*------------------------------------------------------------*/
-#registrationPage {
+#rp {
   display: none;
   height:  100%;
   width: 50%;
