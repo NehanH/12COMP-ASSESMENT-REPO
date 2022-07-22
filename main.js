@@ -124,6 +124,7 @@ let cnv = createCanvas(elmnt.offsetWidth, elmnt.offsetHeight);
 // Setup Function
 function setup(){
   fb_initialise();
+  fb_login(userDetails);
   createBtns()
   frameRate(60)
   var speed = random(BALLVEL);
@@ -251,20 +252,20 @@ function login() {
   readRec();
   fb_login(userDetails);
   console.log(loginStatus);
-  var user = firebase.auth().currentUser;
+  const user = firebase.auth().currentUser;
   if (user) {
   console.log(userDetails.gameName)
   document.getElementById("landingPage").style.display = "none";
   btnLogin.position(20000, 20000);
   document.getElementById("gamePage").style.display = "block";
   regEmailName();
-  } else if (user == null){
+  } else if (user == null) {
   console.log(userDetails.gameName)
   document.getElementById("landingPage").style.display = "none";
   btnLogin.position(20000, 20000);
   document.getElementById("registrationPage").style.display = "block";
   regEmailName();
-  } 
+  }
 }
 
 // Read All Function
