@@ -133,7 +133,6 @@ let cnv = createCanvas(elmnt.offsetWidth, elmnt.offsetHeight);
 function setup(){
   fb_initialise();
   fb_login(userDetails);
-  createBtns()
   frameRate(60)
   var speed = random(BALLVEL);
   var speedY = random(BALLVEL);
@@ -235,23 +234,6 @@ function speedButton(){
   document.getElementById("sp").style.display = "block";
 }
 
-// Login Button
-// temp
-function createBtns(_x, _y) {  
-  console.log("createBtns: x = " + _x + ",  y = " + _y);
-  const BTNCOL   = 'rgb(255, 255, 255)';
-  const BTNW     = 100;
-  const BTNH     = 70;
-  const GAP      = 15;
-  const FONTSIZE = '18px';
-  // create LOGIN button
-  btnLogin = createButton('login');
-  btnLogin.position(900, 200);
-  btnLogin.size(BTNW, BTNH);
-  btnLogin.style('background-color', color(BTNCOL));
-  btnLogin.style('font-size', FONTSIZE);
-  btnLogin.mousePressed(login);
-}
 // Login Function
 function login() {
   readRec();
@@ -260,14 +242,14 @@ function login() {
   const user = firebase.auth().currentUser;
   if (user) {
   console.log(userDetails.gameName)
+  document.getElementById("b_login").style.display = "none";
   document.getElementById("lp").style.display = "none";
-  btnLogin.position(20000, 20000);
   document.getElementById("gp").style.display = "block";
   regEmailName();
   } else if (user == null) {
   console.log(userDetails.gameName)
+    document.getElementById("b_login").style.display = "none";
   document.getElementById("lp").style.display = "none";
-  btnLogin.position(20000, 20000);
   document.getElementById("rp").style.display = "block";
   regEmailName();
   }

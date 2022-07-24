@@ -50,7 +50,7 @@ function ad_admin() {
   gp.style.display    = "none";                                  //<=======
   lp.style.display = "none";                                  //<=======
   s_adminPage.style.display   = "block";                                 //<=======
-  btnLogin.position(20000, 20000);
+   document.getElementById("b_login").style.display = "none";
   
   ad_user();
 }
@@ -70,7 +70,7 @@ function ad_home() {
   gp.style.display    = "none";                                  //<=======
   s_adminPage.style.display   = "none";                                  //<=======
   lp.style.display = "block";                                 //<=======
-  btnLogin.position(900, 200);
+   document.getElementById("b_login").style.display = "block";
 }
 
 /**************************************************************/
