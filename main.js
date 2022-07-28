@@ -40,6 +40,7 @@ var readStatus  = ' ';
 var writeStatus = ' ';
 var readSuccess = ' ';
 
+// userDetails object
 var userDetails = {
   uid:      'n/a',
   email:    'n/a',
@@ -134,6 +135,7 @@ function setup(){
   fb_initialise();
   fb_login(userDetails);
   frameRate(60)
+  document.getElementById("currentHS").innerHTML = userDetails.score;
   var speed = random(BALLVEL);
   var speedY = random(BALLVEL);
   createCanvas(0, 0); 
@@ -210,7 +212,7 @@ function mouseClicked(){
 // Draw Function
 function draw(){
   // Check for admin
-    if(userDetails.uid == "G9TvVr0Ghmax01PnbVqahEAlTM93" || userDetails.uid == "9hdsPQ3Ru8bqKieUxsbnDJ64AEI3") {
+    if(userDetails.email == "19307nh@hvhs.school.nz" || userDetails.email == "bryan.gillies@hvhs.school.nz") {
       document.getElementById("b_lpAdmin").style.display = "block";
     } else {
       document.getElementById("b_lpAdmin").style.display = "none";

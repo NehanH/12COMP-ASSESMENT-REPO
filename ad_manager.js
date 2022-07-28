@@ -67,10 +67,10 @@ function ad_home() {
 
   // Display the HOME (landing page) screen
   // ENSURE THE HTML ID ARE CORRECT                                      //<=======
-  gp.style.display    = "none";                                  //<=======
+  gp.style.display    = "block";                                  //<=======
   s_adminPage.style.display   = "none";                                  //<=======
-  lp.style.display = "block";                                 //<=======
-   document.getElementById("b_login").style.display = "block";
+  lp.style.display = "none";                                 //<=======
+   document.getElementById("b_login").style.display = "none";
 }
 
 /**************************************************************/
