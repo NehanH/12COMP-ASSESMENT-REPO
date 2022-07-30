@@ -146,7 +146,7 @@ p {
 }
 
 #b_lpAdmin {
-  display: block;   /* none = don't display element */
+  display: none;   /* none = don't display element */
 }
 
 #b_gpAdmin {

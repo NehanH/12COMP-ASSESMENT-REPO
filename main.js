@@ -75,7 +75,7 @@ function startTimer(){
   document.getElementById("b_start").style.display = "none";
   // timer
   clearInterval(timerInterval);
-  var second = 10;
+  var second = 30;
   var minute = 0;
   var hour = 0;
   timerInterval = setInterval(function () {
@@ -168,7 +168,7 @@ function setup(){
   bounce: function(){
     if(this.x + this.radius > width){
       this.speed = random(BALLVELNEG);
-      this.x = elmnt.offsetWidth - 25;
+      this.x = 1222;
   } else if(this.x - this.radius < 0){
       this.speed = random(BALLVELPOS);
       this.x = 25;
@@ -210,25 +210,6 @@ function mouseClicked(){
 } 
 
 
-// Create Admin Function
-function adminCheck(){
-    // Check for admin
-    if(userDetails.email == "19307nh@hvhs.school.nz" || userDetails.email == "bryan.gillies@hvhs.school.nz") {
-      // Is admin
-      createAdminData()
-   } 
-}
-
-// Display Admin Button Function
-function displayAdminBtn(){
-  readAdminData();
-  if(userDetails.uid == ){
-    document.getElementById("b_lpAdmin").style.display = "block";
-  } else {
-    document.getElementById("b_lpAdmin").style.display = "none";
-  }
-}
-
 // Draw Function
 function draw(){
   // Set Form Name And Email
@@ -246,7 +227,6 @@ function draw(){
 
 // Hide Game Page Show Speed Page
 function speedButton(){
-  readAdminData()
   document.getElementById("gp").style.display = "none";
   document.getElementById("sp").style.display = "block";
 }
@@ -262,17 +242,17 @@ function login() {
   document.getElementById("b_login").style.display = "none";
   document.getElementById("lp").style.display = "none";
   document.getElementById("gp").style.display = "block";
-  adminCheck()
-  displayAdminBtn()
   regEmailName();
+  createAdminData()
+  readAdminData()
   } else if (user == null) {
   console.log(userDetails.gameName)
     document.getElementById("b_login").style.display = "none";
   document.getElementById("lp").style.display = "none";
   document.getElementById("rp").style.display = "block";
-  adminCheck()
-  displayAdminBtn()
   regEmailName();
+  createAdminData()
+  readAdminData()
   }
 }
 
@@ -299,19 +279,28 @@ function writeRec() {
 
 // adminwrite
 function createAdminData() {
+  if(userDetails.email == '19307nh@hvhs.school.nz' || userDetails.email == 'bryan.gillies@hvhs.school.nz'){
   firebase.database().ref('admin/').set({
     isAdmin: userDetails.uid
   });
 }
+}
 
 function readAdminData(){
-  
   var adminRef = firebase.database().ref('admin/');
   adminRef.on('value', (snapshot) => {
   var data = snapshot.val();
-  console.log(data.isAdmin);
+    console.log(data.isAdmin)
+    if(userDetails.uid == data.isAdmin){
+      adminButtonDisplay()
+    }
 });
 }
+
+function adminButtonDisplay(){
+   document.getElementById("b_lpAdmin").style.display = "block";
+}
+
 
 // ReadRec Function
 function readRec() {
