@@ -209,14 +209,28 @@ function mouseClicked(){
   }
 } 
 
+
+// Create Admin Function
+function adminCheck(){
+    // Check for admin
+    if(userDetails.email == "19307nh@hvhs.school.nz" || userDetails.email == "bryan.gillies@hvhs.school.nz") {
+      // Is admin
+      createAdminData()
+   } 
+}
+
+// Display Admin Button Function
+function displayAdminBtn(){
+  readAdminData();
+  if(userDetails.uid == ){
+    document.getElementById("b_lpAdmin").style.display = "block";
+  } else {
+    document.getElementById("b_lpAdmin").style.display = "none";
+  }
+}
+
 // Draw Function
 function draw(){
-  // Check for admin
-    if(userDetails.email == "19307nh@hvhs.school.nz" || userDetails.email == "bryan.gillies@hvhs.school.nz") {
-      document.getElementById("b_lpAdmin").style.display = "block";
-    } else {
-      document.getElementById("b_lpAdmin").style.display = "none";
-    }
   // Set Form Name And Email
     regEmailName()
   // Canvas
@@ -232,6 +246,7 @@ function draw(){
 
 // Hide Game Page Show Speed Page
 function speedButton(){
+  readAdminData()
   document.getElementById("gp").style.display = "none";
   document.getElementById("sp").style.display = "block";
 }
@@ -247,12 +262,16 @@ function login() {
   document.getElementById("b_login").style.display = "none";
   document.getElementById("lp").style.display = "none";
   document.getElementById("gp").style.display = "block";
+  adminCheck()
+  displayAdminBtn()
   regEmailName();
   } else if (user == null) {
   console.log(userDetails.gameName)
     document.getElementById("b_login").style.display = "none";
   document.getElementById("lp").style.display = "none";
   document.getElementById("rp").style.display = "block";
+  adminCheck()
+  displayAdminBtn()
   regEmailName();
   }
 }
@@ -276,6 +295,22 @@ function writeRec() {
     writeStatus = '';
     loginStatus = 'not logged in';
   }
+}
+
+// adminwrite
+function createAdminData() {
+  firebase.database().ref('admin/').set({
+    isAdmin: userDetails.uid
+  });
+}
+
+function readAdminData(){
+  
+  var adminRef = firebase.database().ref('admin/');
+  adminRef.on('value', (snapshot) => {
+  var data = snapshot.val();
+  console.log(data.isAdmin);
+});
 }
 
 // ReadRec Function
