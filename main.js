@@ -168,7 +168,7 @@ function setup(){
   bounce: function(){
     if(this.x + this.radius > width){
       this.speed = random(BALLVELNEG);
-      this.x = 1222;
+      this.x = elmnt.offsetWidth - 25;
   } else if(this.x - this.radius < 0){
       this.speed = random(BALLVELPOS);
       this.x = 25;
@@ -277,26 +277,27 @@ function writeRec() {
   }
 }
 
-// adminwrite
+// Create Admin Data For Nehan And Mr Gillies (Data is supposed to be made manually this is just for convenience)
 function createAdminData() {
   if(userDetails.email == '19307nh@hvhs.school.nz' || userDetails.email == 'bryan.gillies@hvhs.school.nz'){
-  firebase.database().ref('admin/').set({
+  firebase.database().ref('admin/' + userDetails.name).set({
     isAdmin: userDetails.uid
   });
 }
 }
 
+// Check If Admin
 function readAdminData(){
-  var adminRef = firebase.database().ref('admin/');
+  var adminRef = firebase.database().ref('admin/' + userDetails.name);
   adminRef.on('value', (snapshot) => {
   var data = snapshot.val();
-    console.log(data.isAdmin)
     if(userDetails.uid == data.isAdmin){
       adminButtonDisplay()
     }
 });
 }
 
+// Show Admin Button
 function adminButtonDisplay(){
    document.getElementById("b_lpAdmin").style.display = "block";
 }
