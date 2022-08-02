@@ -1,11 +1,31 @@
-/*************************************************************/
-// SPEED GAMEMODE JAVASCRIPT
-/*************************************************************/
+/*****************************************************/
+// main.js
+// Written by Nehan Hettiarachchi  2022
+/*****************************************************/
 
 /*************************************************************/
 // VARIABLES
 /*************************************************************/
-const elmnt = document.getElementById("speedPC");
+
+// database variables
+
+const DETAILS = "userDetails"; 
+
+var loginStatus = ' ';
+var readStatus  = ' ';
+var writeStatus = ' ';
+var readSuccess = ' ';
+
+// userDetails object
+var userDetails = {
+  uid:      'n/a',
+  email:    'n/a',
+  name:     'n/a',
+  photoURL: 'n/a',
+  score:    'n/a',
+  gameName: 'n/a',
+  phone:    'n/a'
+};
 
 // User Variables
 var hit = false;
@@ -31,26 +51,8 @@ var col = {
   b: 0,
 }
 
-/*dbdbdbdbdbdbdbdbdbdbdbdbdbdbdbdbdbdbdbdbdb*/
-// database variables
-const DETAILS = "userDetails";      //<=============== INSERT YOUR FIREBASE PATH NAME HERE
-
-var loginStatus = ' ';
-var readStatus  = ' ';
-var writeStatus = ' ';
-var readSuccess = ' ';
-
-// userDetails object
-var userDetails = {
-  uid:      'n/a',
-  email:    'n/a',
-  name:     'n/a',
-  photoURL: 'n/a',
-  score:    'n/a',
-  gameName: 'n/a',
-  phone:    'n/a'
-};
-
+// Get canvas container
+const elmnt = document.getElementById("speedPC");
 
 // VELOCITY ARRAY
 const BALLVEL = [-7,-6,-5,-4,-3,3,4,5,6,7];
@@ -62,6 +64,87 @@ var ball = []
 var ballRadius = 25;
 var hits = 0;
 var px2ball = [];
+
+/*************************************************************/
+// FUNCTIONS
+// Setup + Draw + Game Setup + Canvas Setup + Hits and Misses calc
+/*************************************************************/
+
+// Setup Function
+function setup(){
+  fb_initialise();
+  fb_login(userDetails);
+  frameRate(60)
+  document.getElementById("currentHS").innerHTML = userDetails.score;
+  var speed = random(BALLVEL);
+  var speedY = random(BALLVEL);
+  createCanvas(0, 0); 
+  // bouncing ball object
+  for (let i = 0; i < 3; i++) {
+      ball[i] = {
+        
+    x: random(100, 300),
+    y: random(100, 300),
+        
+    speed: random(BALLVEL),
+    speedY: random(BALLVEL),
+    radius: 25,
+    diameter: 50,
+  // Display the ball 
+  display: function(){
+    col.r = random(0, 255);
+    col.g = random(0, 255);
+    col.b = random(0, 255);
+    spot.x = random(0, width);
+    spot.y = random(0, height);
+    ellipse(this.x, this.y, this.diameter, this.diameter);
+    fill(col.r,col.g,col.b);
+    noStroke();
+  },
+  // Ball Speed 
+  move: function(){
+    this.x = this.x + this.speed;
+    this.y = this.y + this.speedY;
+  },
+  // Ball Bounce
+  bounce: function(){
+    if(this.x + this.radius > width){
+      this.speed = random(BALLVELNEG);
+      this.x = elmnt.offsetWidth - 25;
+  } else if(this.x - this.radius < 0){
+      this.speed = random(BALLVELPOS);
+      this.x = 25;
+  }
+  if(this.y + this.radius > height){
+    this.speedY = random(BALLVELNEG);
+    this.y = elmnt.offsetHeight - 25;
+  } else if(this.y - this.radius < 0){
+      this.speedY = random(BALLVELPOS);
+        this.y = 25;
+      }
+    }
+  }
+  }
+}
+
+// CONNECT TO FIREBASE
+var database = firebase.database();
+
+// Draw Function
+function draw(){
+  // Set Form Name And Email
+    regEmailName()
+  // Canvas
+  background(200, 200, 200);
+  // Ball object
+  for (let i = 0; i < ball.length; i++) {
+  ball[i].bounce();
+  ball[i].display();
+  ball[i].move();
+  }
+  // Distance to ball
+ dToBall();
+}
 
 // Start Timer / Game
 function startTimer(){
@@ -79,7 +162,7 @@ function startTimer(){
   var minute = 0;
   var hour = 0;
   timerInterval = setInterval(function () {
-timer.classList.toggle('odd');
+  timer.classList.toggle('odd');
     timer.innerHTML =
       (hour ? hour + ":" : "") +
       (minute < 10 ? "0" + minute : minute) +
@@ -90,7 +173,6 @@ timer.classList.toggle('odd');
     if (second == -1) {
     clearInterval(timerInterval);
     gameOver()
-    
     }
     // if timer is still going
     if(second >= -1){
@@ -99,6 +181,7 @@ timer.classList.toggle('odd');
     }
   }, 1000);
 };
+
 // Game Over Function
 function gameOver(){
   // bring back start button
@@ -130,63 +213,6 @@ let cnv = createCanvas(elmnt.offsetWidth, elmnt.offsetHeight);
   startTimer();
 }
 
-// Setup Function
-function setup(){
-  fb_initialise();
-  fb_login(userDetails);
-  frameRate(60)
-  document.getElementById("currentHS").innerHTML = userDetails.score;
-  var speed = random(BALLVEL);
-  var speedY = random(BALLVEL);
-  createCanvas(0, 0); 
-  // bouncing ball object
-  for (let i = 0; i < 3; i++) {
-      ball[i] = {
-        
-    x: random(100, 300),
-    y: random(100, 300),
-        
-    speed: random(BALLVEL),
-    speedY: random(BALLVEL),
-    radius: 25,
-    diameter: 50,
-        
-  display: function(){
-    col.r = random(0, 255);
-    col.g = random(0, 255);
-    col.b = random(0, 255);
-    spot.x = random(0, width);
-    spot.y = random(0, height);
-    ellipse(this.x, this.y, this.diameter, this.diameter);
-    fill(col.r,col.g,col.b);
-    noStroke();
-  },
-  move: function(){
-    this.x = this.x + this.speed;
-    this.y = this.y + this.speedY;
-  },
-  bounce: function(){
-    if(this.x + this.radius > width){
-      this.speed = random(BALLVELNEG);
-      this.x = elmnt.offsetWidth - 25;
-  } else if(this.x - this.radius < 0){
-      this.speed = random(BALLVELPOS);
-      this.x = 25;
-  }
-  if(this.y + this.radius > height){
-    this.speedY = random(BALLVELNEG);
-    this.y = elmnt.offsetHeight - 25;
-  } else if(this.y - this.radius < 0){
-      this.speedY = random(BALLVELPOS);
-        this.y = 25;
-      }
-    }
-  }
-  }
-}
-
-var database = firebase.database();
-
 // Mouse Clicked Function
 // calculating misses + scores
 function mouseClicked(){
@@ -209,27 +235,16 @@ function mouseClicked(){
   }
 } 
 
-
-// Draw Function
-function draw(){
-  // Set Form Name And Email
-    regEmailName()
-  // Canvas
-  background(200, 200, 200);
-  // Ball object
-  for (let i = 0; i < ball.length; i++) {
-  ball[i].bounce();
-  ball[i].display();
-  ball[i].move();
-  }
- dToBall();
-}
-
 // Hide Game Page Show Speed Page
 function speedButton(){
   document.getElementById("gp").style.display = "none";
   document.getElementById("sp").style.display = "block";
 }
+
+/*************************************************************/
+// FIREBASE FUNCTIONS
+// Login + Read(all) + Write + Check Admin
+/*************************************************************/
 
 // Login Function
 function login() {

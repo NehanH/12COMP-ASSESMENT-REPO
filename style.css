@@ -1,6 +1,9 @@
 /*************************************************************
   Written by Nehan Hettiarachchi, Term 2 2022
 *************************************************************/
+/*------------------------------------------------------------*
+  GENERAL STYLING
+/*------------------------------------------------------------*/
 html, body {
   margin: 0px;
   padding: 0px;
@@ -9,7 +12,7 @@ html, body {
   background-image: url('Images/comp.jpg')
  
 }
-
+/* Login Button */
 .loginBtn {
   background-color: #ddd;
   border: none;
@@ -26,11 +29,12 @@ html, body {
   color: white;
 }
 
+/* Canvas */
 canvas {
   display: block;
 }
 
-
+/* Landing Page */
 #lp{
   display: block;
   height: 100vh;
@@ -47,6 +51,7 @@ canvas {
   padding-top: 20px;
 }
 
+/* Canvas Container */
 #speedPC{
    height: 97%;
 }
@@ -56,11 +61,13 @@ canvas {
   
 }
 
+/* Game Page */
 #gp{
   display: none;
   height: 100vh;
 }
 
+/* Speed Page */
 #sp{
   display: none;
   height: 100vh
@@ -86,6 +93,7 @@ canvas {
   font-size: 40px;
 }
 
+/* Instructions Paragraph */
 .paraText{
   font-size: 25px;
   color: black;
