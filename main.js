@@ -92,14 +92,13 @@ function setup(){
     diameter: 50,
   // Display the ball 
   display: function(){
-    col.r = random(0, 255);
-    col.g = random(0, 255);
-    col.b = random(0, 255);
+    col.r = 255;
+    col.g = 255;
+    col.b = 255;
     spot.x = random(0, width);
     spot.y = random(0, height);
     ellipse(this.x, this.y, this.diameter, this.diameter);
     fill(col.r,col.g,col.b);
-    noStroke();
   },
   // Ball Speed 
   move: function(){
@@ -127,7 +126,7 @@ function setup(){
   }
 }
 
-// CONNECT TO FIREBASE
+// CONNECT TO FIREBASE AFTER SETUP
 var database = firebase.database();
 
 // Draw Function
@@ -241,6 +240,9 @@ function speedButton(){
   document.getElementById("sp").style.display = "block";
 }
 
+function fakeButton(){
+  alert('This is just for show, pick speed to play the game')
+}
 /*************************************************************/
 // FIREBASE FUNCTIONS
 // Login + Read(all) + Write + Check Admin
