@@ -64,6 +64,7 @@ var ballRadius = 25;
 var hits = 0;
 var px2ball = [];
 
+
 /*************************************************************/
 // FUNCTIONS
 /*************************************************************/
@@ -83,7 +84,8 @@ function setup(){
   document.getElementById("currentHS").innerHTML = userDetails.score;
   var speed = random(BALLVEL);
   var speedY = random(BALLVEL);
-  createCanvas(0, 0); 
+  cnv = createCanvas(0, 0); 
+  cnv.mousePressed(mouseClicked)
   // bouncing ball object
   for (let i = 0; i < 3; i++) {
       ball[i] = {
@@ -165,9 +167,9 @@ function draw(){
 // Return: n/a
 /**************************************************************/
 function setupCvs(){
-  var cnv = createCanvas(elmnt.offsetWidth, elmnt.offsetHeight);
+ cnv = createCanvas(elmnt.offsetWidth, elmnt.offsetHeight);
  cnv.parent('speedPC');
-  console.log(elmnt.offsetHeight + "/" + elmnt.offsetWidth);
+console.log(elmnt.offsetHeight + "/" + elmnt.offsetWidth);
   startTimer();
 }
 
@@ -253,9 +255,9 @@ function dToBall (){
 /**************************************************************/
 // mouseClicked Function
 // Called by startTimer
-// Records user Hits + Misses
+// Calculates user hit or miss
 // Input:  Distance to ball
-// Return: Hits + Misses
+// Return: n/a
 /**************************************************************/
 function mouseClicked(){
   for (var i = 0; i < ball.length; i++) {
@@ -267,15 +269,27 @@ function mouseClicked(){
     hit = px2ball.some(function (e) {
     return e <= ballRadius;
   });
+  cnv.mousePressed(hitOrMiss)
+} 
+
+
+/**************************************************************/
+// hitOrMiss Function
+// Called by mouseClicked
+// Records user Hits + Misses
+// Input:  n/a
+// Return: Hits + Misses
+/**************************************************************/
+function hitOrMiss(){
     if (hit == true) {
       score += 1;
       console.log("p_score: "+ score);
   }
-    else{
+    else if (hit == false){
       miss += 1;
       console.log("p_miss:" + miss);
     }
-} 
+}
 
 /**************************************************************/
 // speedButton Function
@@ -299,6 +313,7 @@ function speedButton(){
 function fakeButton(){
   alert('This is just for show, pick speed to play the game')
 }
+
 /*************************************************************/
 // FIREBASE FUNCTIONS
 // Login + Read(all) + Write + Check Admin
