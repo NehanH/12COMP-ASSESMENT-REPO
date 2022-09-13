@@ -8,7 +8,6 @@
 /*************************************************************/
 
 // database variables
-
 const DETAILS = "userDetails"; 
 
 var loginStatus = ' ';
@@ -34,32 +33,32 @@ var count = 0;
 var miss = 0;
 var userHighscore
 
-// BARRIER
+// barrier
 var spot = {
   x: 100,
   y: 100,
 }
 
-// TIMER
+// timer
 const timer = document.getElementById("g_timer");
 var timerInterval;
 
-// RANDOM COLOUR
+// colour
 var col = {
   r: 0,
   g: 0,
   b: 0,
 }
 
-// Get canvas container
+// Canvas Container
 const elmnt = document.getElementById("speedPC");
 
-// VELOCITY ARRAY
+// Velocity Array
 const BALLVEL = [-7,-6,-5,-4,-3,3,4,5,6,7];
 const BALLVELNEG = [-7,-6,-5,-4,-3]
 const BALLVELPOS = [3,4,5,6,7]
 
-// BALL ARRAY
+// Ball Array
 var ball = []
 var ballRadius = 25;
 var hits = 0;
@@ -67,13 +66,19 @@ var px2ball = [];
 
 /*************************************************************/
 // FUNCTIONS
-// Setup + Draw + Game Setup + Canvas Setup + Hits and Misses calc
 /*************************************************************/
 
+/**************************************************************/
 // Setup Function
+// Called by n/a
+// Creates Ball Object, Creates Canvas, Inintilises Database
+// Input:  n/a
+// Return: n/a
+/**************************************************************/
 function setup(){
   fb_initialise();
   fb_login(userDetails);
+  hit == false;
   frameRate(60)
   document.getElementById("currentHS").innerHTML = userDetails.score;
   var speed = random(BALLVEL);
@@ -129,7 +134,14 @@ function setup(){
 // CONNECT TO FIREBASE AFTER SETUP
 var database = firebase.database();
 
+
+/**************************************************************/
 // Draw Function
+// Called by n/a
+// Calculates Distance to Ball, Creates the balls using the ball object, creates background, changes registration from name and email
+// Input:  n/a
+// Return: n/a
+/**************************************************************/
 function draw(){
   // Set Form Name And Email
     regEmailName()
@@ -145,12 +157,34 @@ function draw(){
  dToBall();
 }
 
-// Start Timer / Game
+/**************************************************************/
+// setupCvs Function (Setup Canvas)
+// Called by Start Button
+// Sets canvas to DIV dimensions inorder to match user screen
+// Input:  Canvas container's height and width
+// Return: n/a
+/**************************************************************/
+function setupCvs(){
+  var cnv = createCanvas(elmnt.offsetWidth, elmnt.offsetHeight);
+ cnv.parent('speedPC');
+  console.log(elmnt.offsetHeight + "/" + elmnt.offsetWidth);
+  startTimer();
+}
+
+/**************************************************************/
+// StartTimer Function
+// Called by setupCvs
+// Creates timer and starts counting down from 30, resets score and misses to 0
+// Input:  n/a
+// Return: Scores + Misses
+/**************************************************************/
 function startTimer(){
   readRec();
   // reset misses + score
+  hit == true;
   miss = 0;
   score = 0;
+  console.log(elmnt.offsetWidth)
   document.getElementById("currentHS").innerHTML = userDetails.score;
   document.getElementById("p_score").innerHTML = score;
   document.getElementById("p_misses").innerHTML = miss;
@@ -181,6 +215,13 @@ function startTimer(){
   }, 1000);
 };
 
+/**************************************************************/
+// gameOver Function
+// Called by startTimer Function
+// If user highscore is greater than their currently saved score automatically writes to database, hides game canvas, stops the game.
+// Input:  user score / highscore
+// Return: n/a
+/**************************************************************/
 // Game Over Function
 function gameOver(){
   // bring back start button
@@ -196,24 +237,26 @@ function gameOver(){
   document.getElementById("p_misses").innerHTML = miss;
 }
 
-// Distance To Ball Function
+/**************************************************************/
+// dToBall Function (Distance To Ball)
+// Called by Draw
+// Calculates Distance to Ball
+// Input: Ball length, ball.x, ball.y, mouse.X, mouse.Y
+// Return: Distance to ball
+/**************************************************************/
 function dToBall (){
     for (i = 0; i < ball.length; i++) {
     px2ball[i] = dist(ball[i].x, ball[i].y, mouseX, mouseY);
   }
 }
 
-// Game Canvas Setup Function
-// called by start button
-function setupCvs(){
-  console.log(elmnt.offsetHeight + "/" + elmnt.offsetWidth);
-let cnv = createCanvas(elmnt.offsetWidth, elmnt.offsetHeight);
- cnv.parent('speedPC');
-  startTimer();
-}
-
-// Mouse Clicked Function
-// calculating misses + scores
+/**************************************************************/
+// mouseClicked Function
+// Called by startTimer
+// Records user Hits + Misses
+// Input:  Distance to ball
+// Return: Hits + Misses
+/**************************************************************/
 function mouseClicked(){
   for (var i = 0; i < ball.length; i++) {
     if (px2ball[i] <= ballRadius) {
@@ -224,22 +267,35 @@ function mouseClicked(){
     hit = px2ball.some(function (e) {
     return e <= ballRadius;
   });
-  if (hit == true) {
-    score += 1;
-    console.log("p_score: "+ score);
+    if (hit == true) {
+      score += 1;
+      console.log("p_score: "+ score);
   }
-  else{
-    miss += 1;
-    console.log("p_miss:" + miss);
-  }
+    else{
+      miss += 1;
+      console.log("p_miss:" + miss);
+    }
 } 
 
-// Hide Game Page Show Speed Page
+/**************************************************************/
+// speedButton Function
+// Called by speed button on game selection page
+// hides game selection page (gp) displays speed page (sp)
+// Input:  n/a
+// Return: n/a
+/**************************************************************/
 function speedButton(){
   document.getElementById("gp").style.display = "none";
   document.getElementById("sp").style.display = "block";
 }
 
+/**************************************************************/
+// fakeButton Function
+// Called by Track and Flick buttons on game selection page
+// gives alert
+// Input:  n/a
+// Return: n/a
+/**************************************************************/
 function fakeButton(){
   alert('This is just for show, pick speed to play the game')
 }
@@ -248,7 +304,13 @@ function fakeButton(){
 // Login + Read(all) + Write + Check Admin
 /*************************************************************/
 
-// Login Function
+/**************************************************************/
+// login()
+// Called by setup
+// Login to Firebase, check if the user exists, if they do send them to game selection page, if they don't exist send them to reg page. 
+// Input:  n/a
+// Return: 
+/**************************************************************/
 function login() {
   readRec();
   fb_login(userDetails);
@@ -273,13 +335,25 @@ function login() {
   }
 }
 
-// Read All Function
+
+
+/*****************************************************/
+// fb_readAll(_path, _data)
+// Read all DB records for the path
+// Input:  path to read from and where to save it
+// Return:
+/*****************************************************/
 function readAll() {
   // CALL YOUR READ ALL FUNCTION        <=================
   fb_readAll(DETAILS, dbArray);
 }
 
-// WriteRec Function
+/*****************************************************/
+// fb_writeRec(_path, _key, _data)
+// Write a specific record & key to the DB
+// Input:  path to write to, the key, data to write
+// Return: 
+/*****************************************************/
 function writeRec() {
   if (userDetails.uid != '') {
     userDetails.score = score;
@@ -303,7 +377,13 @@ function createAdminData() {
 }
 }
 
-// Check If Admin
+/*****************************************************/
+// readAdminData
+// Checks user for admin by looking for corresponding admin UID
+// Called by fb_login
+// Input:  n/a
+// Return:  n/a
+/*****************************************************/
 function readAdminData(){
   var adminRef = firebase.database().ref('admin/' + userDetails.name);
   adminRef.on('value', (snapshot) => {
@@ -314,13 +394,24 @@ function readAdminData(){
 });
 }
 
-// Show Admin Button
+/*****************************************************/
+// AdminButtonDisplay Function
+// Shows admin button if user is admin
+// Called by readAdminData
+// Input:  n/a
+// Return:  n/a
+/*****************************************************/
 function adminButtonDisplay(){
    document.getElementById("b_lpAdmin").style.display = "block";
 }
 
 
-// ReadRec Function
+/*****************************************************/
+// fb_readRec(_path, _key, _data)
+// Read a specific DB record
+// Input:  path & key of record to read and where to save it
+// Return:  
+/*****************************************************/
 function readRec() {
   // CALL YOUR READ A RECORD FUNCTION    <=================
   fb_readRec(DETAILS, userDetails.uid, userDetails);
